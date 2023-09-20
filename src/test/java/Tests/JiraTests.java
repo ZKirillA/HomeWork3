@@ -31,5 +31,8 @@ public class JiraTests extends WebHooks {
     public void test3() {
         authorizationInJira();
         createBug();
+        fillBugFields();
+        changeStatusToComplite();
+        checkBugStatus();
     }
 }

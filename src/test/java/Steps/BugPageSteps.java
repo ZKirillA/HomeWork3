@@ -1,6 +1,7 @@
 package Steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.Assertions;
 
 import static Elements.BugPageElements.*;
@@ -21,25 +22,41 @@ public class BugPageSteps {
     }
 
     public static void fillBugFields() {
-        bugType.shouldBe(Condition.visible).click();
-        typeError.shouldBe(Condition.visible).click();
+        if (typeBug.is(Condition.visible)) {
+            bugType.shouldBe(Condition.visible).click();
+            typeHistory.shouldBe(Condition.visible).click();
+        } else {
+            bugType.shouldBe(Condition.visible).click();
+            typeBug.shouldBe(Condition.visible).click();
+        }
         subjectField.shouldBe(Condition.visible).sendKeys("Тест Кирилл Зайцев");
-        descriptionField.shouldBe(Condition.visible).sendKeys("Описание бага");
+        Selenide.switchTo().frame(iframe);
+        descriptionField.shouldBe(Condition.visible).click();
+        descriptionField.sendKeys("Описание бага");
+        Selenide.switchTo().parentFrame();
         fixInVersions.shouldBe(Condition.visible).click();
         priorityField.shouldBe(Condition.visible).click();
         choosePriority.shouldBe(Condition.visible).click();
         tagsField.shouldBe(Condition.visible).sendKeys("Test1");
         tagsField.pressEnter();
-        affectedVersions.shouldBe(Condition.visible).click();
         relatedTasksField.shouldBe(Condition.visible).click();
         chooseRelatedTasks.shouldBe(Condition.visible).click();
         tasksField.shouldBe(Condition.visible).sendKeys("TestSelenium");
+        Selenide.sleep(1000);
         tasksField.pressEnter();
         executorField.click();
-        sprintField.shouldBe(Condition.visible).sendKeys("Доска Спринт 1");
-        sprintField.pressEnter();
+        Selenide.sleep(1000);
         createButton.click();
+    }
 
+    public static void changeStatusToComplite() {
+        myBug.shouldBe(Condition.visible).click();
+        buttonBussinesProc.shouldBe(Condition.visible).click();
+        buttonComplite.shouldBe(Condition.visible).click();
+        Selenide.sleep(2000);
+    }
 
+    public static void checkBugStatus() {
+        Assertions.assertEquals(statusInBug.shouldBe(Condition.visible).getText(), "ГОТОВО", "Статус задачи не изменился");
     }
 }
