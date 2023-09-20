@@ -22,7 +22,7 @@ public class JiraTests extends WebHooks {
     public void test2() {
         authorizationInJira();
         seleniumTaskSearch();
-        checkStatus("СДЕЛАТЬ");
+        checkStatus("ГОТОВО");
         checkVersion("Version 2.0");
     }
 
