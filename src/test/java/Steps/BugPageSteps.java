@@ -26,13 +26,17 @@ public class BugPageSteps {
         subjectField.shouldBe(Condition.visible).sendKeys("Тест Кирилл Зайцев");
         Selenide.switchTo().frame(iframe);
         descriptionField.shouldBe(Condition.visible).click();
-        descriptionField.sendKeys("Описание бага");
+        descriptionField.sendKeys("Описание бага - всё сломалось");
         Selenide.switchTo().parentFrame();
         fixInVersions.shouldBe(Condition.visible).click();
         priorityField.shouldBe(Condition.visible).click();
         choosePriority.shouldBe(Condition.visible).click();
         tagsField.shouldBe(Condition.visible).sendKeys("Test1");
         tagsField.pressEnter();
+        Selenide.switchTo().frame(iframeNext);
+        environmentField.shouldBe(Condition.visible).click();
+        environmentField.sendKeys("Google Chrome Версия 117.0.5938.89 (Официальная сборка), (64 бит)");
+        Selenide.switchTo().parentFrame();
         affectedVersions.shouldBe(Condition.visible).click();
         relatedTasksField.shouldBe(Condition.visible).click();
         chooseRelatedTasks.shouldBe(Condition.visible).click();
