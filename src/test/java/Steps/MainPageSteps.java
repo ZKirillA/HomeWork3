@@ -1,6 +1,7 @@
 package Steps;
 
 import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Selenide;
 
 import static Elements.BugPageElements.tasksButton;
 import static Elements.MainPageElements.*;
@@ -12,11 +13,14 @@ public class MainPageSteps {
         tasksButton.shouldBe(Condition.visible).click();
     }
 
-    public static void seleniumTaskSearch(){
+    public static void seleniumTaskSearch() {
+        Selenide.sleep(1000);
+        searchField.shouldBe(Condition.visible).click();
         searchField.shouldBe(Condition.visible).sendKeys("TestSelenium");
         searchTestSelenium.shouldBe(Condition.visible).click();
     }
-    public static void createBug(){
+
+    public static void createBug() {
         createBugButton.shouldBe(Condition.visible).click();
     }
 

@@ -22,13 +22,7 @@ public class BugPageSteps {
     }
 
     public static void fillBugFields() {
-        if (typeBug.is(Condition.visible)) {
-            bugType.shouldBe(Condition.visible).click();
-            typeHistory.shouldBe(Condition.visible).click();
-        } else {
-            bugType.shouldBe(Condition.visible).click();
-            typeBug.shouldBe(Condition.visible).click();
-        }
+
         subjectField.shouldBe(Condition.visible).sendKeys("Тест Кирилл Зайцев");
         Selenide.switchTo().frame(iframe);
         descriptionField.shouldBe(Condition.visible).click();
@@ -39,6 +33,7 @@ public class BugPageSteps {
         choosePriority.shouldBe(Condition.visible).click();
         tagsField.shouldBe(Condition.visible).sendKeys("Test1");
         tagsField.pressEnter();
+        affectedVersions.shouldBe(Condition.visible).click();
         relatedTasksField.shouldBe(Condition.visible).click();
         chooseRelatedTasks.shouldBe(Condition.visible).click();
         tasksField.shouldBe(Condition.visible).sendKeys("TestSelenium");
