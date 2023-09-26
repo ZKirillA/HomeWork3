@@ -16,12 +16,12 @@ public class BugPageSteps {
         Assertions.assertEquals(num, num2, "Количество задач не совпадает");
     }
     @И("^Проверяем статус задачи$")
-    public static void checkStatus(String status) {
-        Assertions.assertEquals(statusOfTask.shouldBe(Condition.visible).getText(), status);
+    public static void checkStatus() {
+        Assertions.assertEquals(statusOfTask.shouldBe(Condition.visible).getText(),"ГОТОВО");
     }
     @И("^Проверяем версию задачи$")
-    public static void checkVersion(String version) {
-        Assertions.assertEquals(versionOfTask.shouldBe(Condition.visible).getText(), version);
+    public static void checkVersion() {
+        Assertions.assertEquals(versionOfTask.shouldBe(Condition.visible).getText(), "Version 2.0");
     }
     @И("^Заполняем все поля описания бага$")
     public static void fillBugFields() {

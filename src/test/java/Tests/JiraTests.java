@@ -22,8 +22,8 @@ public class JiraTests extends WebHooks {
     public void test2() {
         authorizationInJira();
         seleniumTaskSearch();
-        checkStatus("ГОТОВО");
-        checkVersion("Version 2.0");
+        checkStatus();
+        checkVersion();
     }
 
     @Test
