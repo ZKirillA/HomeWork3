@@ -1,19 +1,25 @@
 package Hooks;
 
+import com.codeborne.selenide.Browsers;
 import com.codeborne.selenide.Configuration;
-
 import com.codeborne.selenide.Selenide;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
+import com.codeborne.selenide.WebDriverRunner;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
+
+
+import static Configuration.Configuration.getFromProperties;
 
 public class WebHooks {
 
-    @BeforeAll
+    @Before
     public static void setDriver() {
-        Configuration.browserSize = "1920x1080";
+        Configuration.browser = Browsers.CHROME;
+        Selenide.open(getFromProperties("url"));
+        WebDriverRunner.getWebDriver().manage().window().maximize();
         Configuration.timeout = 12000;
     }
-    @AfterEach
+    @After
     public void closeDriver(){
         Selenide.webdriver().driver().close();
     }
