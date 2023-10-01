@@ -7,10 +7,10 @@ import static Configuration.Configuration.getFromProperties;
 import static Elements.AutorizationPageElements.*;
 
 public class AutorizationPageSteps {
-    @Когда("^Выполнена авторизация на портале jira$")
-    public static void authorizationInJira() {
-        login.shouldBe(Condition.visible).sendKeys(getFromProperties("login"));
-        password.shouldBe(Condition.visible).sendKeys(getFromProperties("password"));
+    @Когда("^Выполнена авторизация на портале jira под логином (.*) и паролем (.*)$")
+    public static void authorizationInJira(String userName, String userPassword) {
+        login.shouldBe(Condition.visible).sendKeys(userName);
+        password.shouldBe(Condition.visible).sendKeys(userPassword);
         buttonEnter.click();
     }
 

@@ -15,11 +15,11 @@ public class MainPageSteps {
         tasksButton.shouldBe(Condition.visible).click();
     }
 
-    @Тогда("^Открываем задачу TestSelenium$")
-    public static void seleniumTaskSearch() {
+    @Тогда("^Открываем задачу (.*)$")
+    public static void seleniumTaskSearch(String task) {
         Selenide.sleep(1000);
         searchField.shouldBe(Condition.visible).click();
-        searchField.shouldBe(Condition.visible).sendKeys("TestSelenium");
+        searchField.shouldBe(Condition.visible).sendKeys(task);
         searchTestSelenium.shouldBe(Condition.visible).click();
     }
 
