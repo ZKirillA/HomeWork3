@@ -30,7 +30,7 @@ public class BaseApi {
                 .when()
                 .get("/episode/" + episode)
                 .then()
-                //   .log().all()
+                .log().all()
                 .assertThat()
                 .statusCode(200)
                 .extract().response();
