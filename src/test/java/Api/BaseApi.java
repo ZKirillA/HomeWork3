@@ -17,7 +17,7 @@ public class BaseApi {
                 .when()
                 .get("/character/" + id)
                 .then()
-                //   .log().all()
+                .log().all()
                 .assertThat()
                 .statusCode(200)
                 .extract().response();
