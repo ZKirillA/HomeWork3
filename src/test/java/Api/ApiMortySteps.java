@@ -1,107 +1,58 @@
 package Api;
 
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
-import io.restassured.specification.ResponseSpecification;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 
-import static io.restassured.RestAssured.given;
-import static Settings.Configuration.getFromProperties;
+import static Api.BaseApi.*;
 
 public class ApiMortySteps {
-    public static void someApiFunc(){
-        RequestSpecification requestSpec = (RequestSpecification) new RequestSpecBuilder()
-        .setBaseUri("https://rickandmortyapi.com/api")
-        .setContentType(ContentType.JSON);
 
-        RestAssured.requestSpecification = requestSpec;
-
-        ResponseSpecification res = (ResponseSpecification) new RequestSpecBuilder()
-
-
-
-
-        //ResponceSpecification responceSpec = new ResponceSpecBuilder()
-                //.expectStatusCode
-
-
-    }
-    public static int lastEpisode;
+    public static String lastEpisode;
     public static String mortyname;
     public static String mortylocation;
     public static String mortyrace;
     public static String lastCharacterName;
     public static String lastCharacterrace;
-    public static int lastCharacterNum;
+    public static String lastCharacterNum;
     public static String lastCharacterLocation;
 
     @DisplayName("Задание на создание API и сравнение информации о персонажах")
-    public static void mortyInformation() {
-        Response response1 = given()
-                //.baseUri("https://rickandmortyapi.com/api")
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/character/2")
-                .then()
-                .log().all()
-                .assertThat()
-                .statusCode(200)
-                .extract().response();
-        mortyname = new JSONObject(response1.getBody().asString()).get("name").toString();
-        mortylocation = new JSONObject(response1.getBody().asString()).getJSONObject("location").get("name").toString();
-        mortyrace = new JSONObject(response1.getBody().asString()).get("species").toString();
-        System.out.println(mortyname+mortylocation+mortyrace);
+    public static void mortyInformation(String id) {
+        Response response1 = getResponseCharacter(id);
+        mortyname = parseResponse(response1, "name");
+        mortylocation = parseResponse(response1, "location", "name");
+        mortyrace = parseResponse(response1, "species");
     }
 
-    public static void lastEpisode() {
-        Response response2 = given()
-                .baseUri(getFromProperties("url"))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/character/2")
-                .then()
-                .extract().response();
-
+    public static void lastEpisode(String id) {
+        Response response2 = getResponseCharacter(id);
         int jsonSize1 = new JSONObject(response2.asString()).getJSONArray("episode").length();
-        lastEpisode = Integer.parseInt(new JSONObject(response2.getBody().asString()).getJSONArray("episode").get(jsonSize1 - 1).toString().replaceAll("[^0-9]", ""));
+        lastEpisode = parseResponseWithJsonArray(response2, "episode")
+                .get(jsonSize1 - 1).toString().replaceAll("[^0-9]", "");
     }
 
     public static void getLastCharacterNum() {
-        Response response3 = given()
-                .baseUri(getFromProperties("url"))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/episode/" + lastEpisode)
-                .then()
-                .extract().response();
-
-        int lastCharacterIndex = (new JSONObject(response3.getBody().asString()).getJSONArray("characters").length() - 1);
-        lastCharacterNum = Integer.parseInt(new JSONObject(response3.getBody().asString()).getJSONArray("characters").get(lastCharacterIndex).toString().replaceAll("[^0-9]", ""));
+        Response response3 = getResponseEpisode(lastEpisode);
+        int lastCharacterIndex = (parseResponseWithJsonArray(response3, "characters").length() - 1);
+        lastCharacterNum = parseResponseWithJsonArray(response3, "characters")
+                .get(lastCharacterIndex).toString().replaceAll("[^0-9]", "");
     }
 
     public static void getLastCharacterInfo() {
-        Response response4 = given()
-                .baseUri(getFromProperties("url"))
-                .contentType(ContentType.JSON)
-                .when()
-                .get("/character/" + lastCharacterNum)
-                .then()
-                .extract().response();
-        lastCharacterName = new JSONObject(response4.getBody().asString()).get("name").toString();
-        lastCharacterLocation = new JSONObject(response4.getBody().asString()).getJSONObject("location").get("name").toString();
-        lastCharacterrace = new JSONObject(response4.getBody().asString()).get("species").toString();
+        Response response4 = getResponseCharacter(lastCharacterNum);
+        lastCharacterName = parseResponse(response4, "name");
+        lastCharacterLocation = parseResponse(response4, "location", "name");
+        lastCharacterrace = parseResponse(response4, "species");
+
     }
 
-    public void assertionsRace() {
-        Assertions.assertEquals(mortyrace, lastCharacterrace);
+    public static void checkRace() {
+        Assertions.assertEquals(mortyrace, lastCharacterrace, "Расы персонажей не совпадают");
     }
 
-    public void assertionsLoc() {
-        Assertions.assertNotEquals(mortylocation, lastCharacterLocation);
+    public static void checkLocation() {
+        Assertions.assertNotEquals(mortylocation, lastCharacterLocation, "Локации персонажей не совпадают");
     }
 }
