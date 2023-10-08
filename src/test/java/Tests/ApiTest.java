@@ -1,13 +1,15 @@
 package Tests;
 
+import org.junit.jupiter.api.Test;
+
 import java.io.IOException;
 
 import static Api.ApiMortySteps.*;
 import static Api.ApiPotatoSteps.*;
 
-public class Test {
+public class ApiTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void mortyTest() {
         mortyInformation("2");
         lastEpisode("2");
@@ -17,7 +19,7 @@ public class Test {
         checkLocation();
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     public void potatoTest() throws IOException {
         sendPostRequest();
         checkName();
