@@ -4,10 +4,11 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.cucumber.java.ru.И;
 import org.junit.jupiter.api.Assertions;
-
+import io.qameta.allure.Step;
 import static Elements.BugPageElements.*;
 
 public class BugPageSteps {
+    @Step("Сравнить количество задач")
     @И("^Сравниваем количество задач$")
     public static void checkNumOfTasks() {
         String num = numberOfTasks.shouldBe(Condition.visible).getText().substring(5);
@@ -15,16 +16,19 @@ public class BugPageSteps {
         Assertions.assertEquals(num, num2, "Количество задач не совпадает");
     }
 
+    @Step("Проверка статуса задачи")
     @И("^Проверяем статус задачи = (.*)$")
     public static void checkStatus(String status) {
         Assertions.assertEquals(status, statusOfTask.shouldBe(Condition.visible).getText());
     }
 
+    @Step("Проверка версии задачи")
     @И("^Проверяем версию задачи = (.*)$")
     public static void checkVersion(String version) {
         Assertions.assertEquals(version, versionOfTask.shouldBe(Condition.visible).getText());
     }
 
+    @Step("Заполнение полей описания бага")
     @И("^Заполняем все поля описания бага$")
     public static void fillBugFields() {
         subjectField.shouldBe(Condition.visible).sendKeys("Тест Кирилл Зайцев");
@@ -52,6 +56,7 @@ public class BugPageSteps {
         createButton.click();
     }
 
+    @Step("Перевод задачи в статус 'ГОТОВО'")
     @И("^Переводим в статус 'ГОТОВО'$")
     public static void changeStatusToComplite() {
         myBug.shouldBe(Condition.visible).click();
@@ -60,6 +65,7 @@ public class BugPageSteps {
         Selenide.sleep(2000);
     }
 
+    @Step("Проверка изменения статуса задачи")
     @И("^Проверяем,что статус задачи = (.*)$")
     public static void checkBugStatus(String status) {
         Assertions.assertEquals(status, statusInBug.shouldBe(Condition.visible).getText(), "Статус задачи не изменился");

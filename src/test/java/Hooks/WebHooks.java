@@ -7,6 +7,9 @@ import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 
+import com.codeborne.selenide.logevents.SelenideLogger;
+import io.qameta.allure.selenide.AllureSelenide;
+import org.junit.jupiter.api.BeforeAll;
 
 import static Configuration.Configuration.getFromProperties;
 
@@ -24,5 +27,21 @@ public class WebHooks {
         Selenide.webdriver().driver().close();
     }
 
+    /*@BeforeAll
+    public static void allureSelenide() {
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
+                .screenshots(false)
+                .savePageSource(true));}*/
 
+
+
+
+    @BeforeAll
+    public static void allureSubThreadParallel(){
+        String listenerName = "AllureSelenide";
+        if (!(SelenideLogger.hasListener(listenerName)))
+            SelenideLogger.addListener(listenerName,
+                    (new AllureSelenide().screenshots(true).savePageSource(false)));
+
+    }
 }

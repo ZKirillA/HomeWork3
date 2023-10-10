@@ -3,11 +3,12 @@ package Steps;
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import io.cucumber.java.ru.Тогда;
-
+import io.qameta.allure.Step;
 import static Elements.BugPageElements.tasksButton;
 import static Elements.MainPageElements.*;
 
 public class MainPageSteps {
+    @Step("Переход в раздел задачи")
     @Тогда("^Переходим в раздел задачи$")
     public static void goToTasks() {
         projects.shouldBe(Condition.visible).click();
@@ -15,6 +16,7 @@ public class MainPageSteps {
         tasksButton.shouldBe(Condition.visible).click();
     }
 
+    @Step("Открытие задачи")
     @Тогда("^Открываем задачу (.*)$")
     public static void seleniumTaskSearch(String task) {
         Selenide.sleep(1000);
@@ -23,6 +25,7 @@ public class MainPageSteps {
         searchTestSelenium.shouldBe(Condition.visible).click();
     }
 
+    @Step("Создание бага")
     @Тогда("^Нажимаем кнопку создать баг$")
     public static void createBug() {
         createBugButton.shouldBe(Condition.visible).click();
