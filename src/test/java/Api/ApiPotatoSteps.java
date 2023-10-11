@@ -9,10 +9,12 @@ import java.nio.file.Paths;
 
 import static Api.BaseApi.getResponsePotato;
 
+import io.qameta.allure.Step;
 
 public class ApiPotatoSteps {
     private static JSONObject respJson;
 
+    @Step("Создаем запрос для пользователя, меняем имя, добавляем поле job")
     public static void sendPostRequest() throws IOException {
 
         JSONObject jsonObject = new JSONObject(new String(Files.readAllBytes(Paths.get("src/test/resources/.json"))));
@@ -23,14 +25,17 @@ public class ApiPotatoSteps {
         respJson = new JSONObject(getResponsePotato(jsonObject).getBody().asString());
     }
 
+    @Step("Сравниваем имя")
     public static void checkName() {
         Assertions.assertEquals(respJson.getString("name"), "Tomato");
     }
 
+    @Step("Сравниваем работу")
     public static void checkJob() {
         Assertions.assertEquals(respJson.getString("job"), "Eat maket");
     }
 
+    @Step("Сравниваем id")
     public static void checkId() {
         Assertions.assertNotNull(respJson.getString("id"));
     }

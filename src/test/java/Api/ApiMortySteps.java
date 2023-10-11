@@ -4,7 +4,7 @@ import io.restassured.response.Response;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
-
+import io.qameta.allure.Step;
 import static Api.BaseApi.*;
 
 public class ApiMortySteps {
@@ -18,6 +18,7 @@ public class ApiMortySteps {
     public static String lastCharacterNum;
     public static String lastCharacterLocation;
 
+    @Step ("Находим информацию по персонажу Морти Смит")
     @DisplayName("Задание на создание API и сравнение информации о персонажах")
     public static void mortyInformation(String id) {
         Response response1 = getResponseCharacter(id);
@@ -26,6 +27,7 @@ public class ApiMortySteps {
         mortyrace = parseResponse(response1, "species");
     }
 
+    @Step ("Выбираем последний эпизод, где появился Морти")
     public static void lastEpisode(String id) {
         Response response2 = getResponseCharacter(id);
         int jsonSize1 = new JSONObject(response2.asString()).getJSONArray("episode").length();
@@ -33,6 +35,7 @@ public class ApiMortySteps {
                 .get(jsonSize1 - 1).toString().replaceAll("[^0-9]", "");
     }
 
+    @Step ("Получаем из списка последнего эпизода последнего персонажа")
     public static void getLastCharacterNum() {
         Response response3 = getResponseEpisode(lastEpisode);
         int lastCharacterIndex = (parseResponseWithJsonArray(response3, "characters").length() - 1);
@@ -40,6 +43,7 @@ public class ApiMortySteps {
                 .get(lastCharacterIndex).toString().replaceAll("[^0-9]", "");
     }
 
+    @Step ("Получаем информацию по локации и рассе последнего персонажа")
     public static void getLastCharacterInfo() {
         Response response4 = getResponseCharacter(lastCharacterNum);
         lastCharacterName = parseResponse(response4, "name");
@@ -48,10 +52,12 @@ public class ApiMortySteps {
 
     }
 
+    @Step ("Сравниваем рассу последнего персонажа с рассой Морти")
     public static void checkRace() {
         Assertions.assertEquals(mortyrace, lastCharacterrace, "Расы персонажей не совпадают");
     }
 
+    @Step ("Сравниваем локацию последнего персонажа с локацией Морти")
     public static void checkLocation() {
         Assertions.assertNotEquals(mortylocation, lastCharacterLocation, "Локации персонажей не совпадают");
     }
