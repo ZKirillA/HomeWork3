@@ -13,6 +13,7 @@ public class ApiMortySteps {
     public static String mortyname;
     public static String mortylocation;
     public static String mortyrace;
+    public static String charId;
     public static String lastCharacterName;
     public static String lastCharacterrace;
     public static String lastCharacterNum;
@@ -25,11 +26,12 @@ public class ApiMortySteps {
         mortyname = parseResponse(response1, "name");
         mortylocation = parseResponse(response1, "location", "name");
         mortyrace = parseResponse(response1, "species");
+        charId = id;
     }
 
     @Step ("Выбираем последний эпизод, где появился Морти")
-    public static void lastEpisode(String id) {
-        Response response2 = getResponseCharacter(id);
+    public static void lastEpisode() {
+        Response response2 = getResponseCharacter(charId);
         int jsonSize1 = new JSONObject(response2.asString()).getJSONArray("episode").length();
         lastEpisode = parseResponseWithJsonArray(response2, "episode")
                 .get(jsonSize1 - 1).toString().replaceAll("[^0-9]", "");
@@ -43,7 +45,7 @@ public class ApiMortySteps {
                 .get(lastCharacterIndex).toString().replaceAll("[^0-9]", "");
     }
 
-    @Step ("Получаем информацию по локации и рассе последнего персонажа")
+    @Step ("Получаем информацию по локации и расе последнего персонажа")
     public static void getLastCharacterInfo() {
         Response response4 = getResponseCharacter(lastCharacterNum);
         lastCharacterName = parseResponse(response4, "name");
@@ -52,7 +54,7 @@ public class ApiMortySteps {
 
     }
 
-    @Step ("Сравниваем рассу последнего персонажа с рассой Морти")
+    @Step ("Сравниваем расу последнего персонажа с расой Морти")
     public static void checkRace() {
         Assertions.assertEquals(mortyrace, lastCharacterrace, "Расы персонажей не совпадают");
     }
