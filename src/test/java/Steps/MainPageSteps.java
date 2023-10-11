@@ -16,7 +16,7 @@ public class MainPageSteps {
         tasksButton.shouldBe(Condition.visible).click();
     }
 
-    @Step("Открытие задачи")
+    @Step("Открытие задачи {task}")
     @Тогда("^Открываем задачу (.*)$")
     public static void seleniumTaskSearch(String task) {
         Selenide.sleep(1000);
@@ -25,7 +25,7 @@ public class MainPageSteps {
         searchTestSelenium.shouldBe(Condition.visible).click();
     }
 
-    @Step("Создание бага")
+    @Step("Нажимаем кнопку создать баг")
     @Тогда("^Нажимаем кнопку создать баг$")
     public static void createBug() {
         createBugButton.shouldBe(Condition.visible).click();

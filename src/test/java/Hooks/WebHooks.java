@@ -27,15 +27,6 @@ public class WebHooks {
         Selenide.webdriver().driver().close();
     }
 
-    /*@BeforeAll
-    public static void allureSelenide() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide()
-                .screenshots(false)
-                .savePageSource(true));}*/
-
-
-
-
     @BeforeAll
     public static void allureSubThreadParallel(){
         String listenerName = "AllureSelenide";
