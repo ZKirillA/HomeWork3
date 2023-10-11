@@ -12,7 +12,7 @@ public class ApiTest {
     @Test
     public void mortyTest() {
         mortyInformation("2");
-        lastEpisode("2");
+        lastEpisode();
         getLastCharacterNum();
         getLastCharacterInfo();
         checkRace();

@@ -13,6 +13,7 @@ public class ApiMortySteps {
     public static String mortyname;
     public static String mortylocation;
     public static String mortyrace;
+    public static String charId;
     public static String lastCharacterName;
     public static String lastCharacterrace;
     public static String lastCharacterNum;
@@ -24,10 +25,11 @@ public class ApiMortySteps {
         mortyname = parseResponse(response1, "name");
         mortylocation = parseResponse(response1, "location", "name");
         mortyrace = parseResponse(response1, "species");
+        charId = id;
     }
 
-    public static void lastEpisode(String id) {
-        Response response2 = getResponseCharacter(id);
+    public static void lastEpisode() {
+        Response response2 = getResponseCharacter(charId);
         int jsonSize1 = new JSONObject(response2.asString()).getJSONArray("episode").length();
         lastEpisode = parseResponseWithJsonArray(response2, "episode")
                 .get(jsonSize1 - 1).toString().replaceAll("[^0-9]", "");
